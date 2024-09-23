@@ -37,11 +37,16 @@ struct ContentView: View {
                     placeholder: "Type in a number",
                     text: $inputNumber,
                     keyboardType: .numberPad,
-                    actionTitle: "Set Number",
+                    actionTitle: "Set",
+                    sysImg: "number",
                     action: {
                         viewModel.setNumber(inputNumber)
                     }
                 )
+                Divider()
+                    .frame(width: 300)
+                    .padding(10)
+                
                 Text("\(viewModel.getName())")
                     .padding(10)
                 Text("\(viewModel.getNumber())")

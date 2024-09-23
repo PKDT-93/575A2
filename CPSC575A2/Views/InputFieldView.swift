@@ -10,9 +10,13 @@ import SwiftUI
 struct InputFieldView: View {
     let label: String
     let placeholder: String
+    
     @Binding var text: String
+    @FocusState private var isTextFieldFocused: Bool
+    
     var keyboardType: UIKeyboardType = .default
     var actionTitle: String? = nil
+    var sysImg: String? = nil
     var action: (() -> Void)? = nil
 
     var body: some View {
@@ -21,12 +25,16 @@ struct InputFieldView: View {
             TextField(placeholder, text: $text)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(keyboardType)
+                .focused($isTextFieldFocused)
                 .onSubmit {
                     action?()
                 }
-            if let actionTitle = actionTitle, let action = action {
-                Button(actionTitle) {
+            if let actionTitle = actionTitle, let action = action, let sysImg = sysImg{
+                Button(action: {
                     action()
+                    isTextFieldFocused = false
+                }) {
+                    Label(actionTitle, systemImage: sysImg)
                 }
                 .buttonStyle(.borderedProminent)
             }
@@ -40,6 +48,7 @@ struct InputFieldView: View {
         placeholder: "Enter text",
         text: .constant("Sample"),
         actionTitle: "Submit",
+        sysImg: "number",
         action: {
             print("Button pressed")
         }
